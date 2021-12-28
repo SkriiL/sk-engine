@@ -9,6 +9,10 @@ class Vector:
         self.y: float = y
         self.z: float = z
 
+    @staticmethod
+    def unit() -> "Vector":
+        return Vector(1, 1, 1)
+
     def __str__(self) -> str:
         return f"Vector({self.x}, {self.y}, {self.z})"
 

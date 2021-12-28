@@ -118,6 +118,15 @@ class Matrix:
                       self._data[3], self._data[4], self._data[5],
                       self._data[6], self._data[7], self._data[8])
 
+    def determinant(self) -> "float":
+        det0 = self._data[0] * (self._data[4] * self._data[8] - self._data[5] * self._data[7])
+        det1 = self._data[1] * (self._data[3] * self._data[8] - self._data[5] * self._data[6])
+        det2 = self._data[2] * (self._data[3] * self._data[7] - self._data[4] * self._data[6])
+        return det0 - det1 + det2
+
+    def inverse(self) -> "Matrix":
+        return self.transpose() * (1 / self.determinant())
+
 
 if __name__ == "__main__":
     print(Matrix(1, 1, 1, 1, 1, 1, 1, 1, 1))

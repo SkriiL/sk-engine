@@ -67,6 +67,11 @@ class Vector:
         else:
             raise SkTypeError(self, other, "/=")
 
+    def dot(self, other) -> float or int:
+        if isinstance(other, Vector):
+            return self.x * other.x + self.y * other.y + self.z * other.z
+        raise SkTypeError(self, other, "dot")
+
 
 if __name__ == "__main__":
     v = Vector(1, 1, 1)

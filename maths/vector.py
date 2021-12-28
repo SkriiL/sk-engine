@@ -1,5 +1,6 @@
 import math
 
+import maths
 from errors import SkTypeError
 
 
@@ -50,12 +51,16 @@ class Vector:
     def __mul__(self, other) -> "Vector":
         if isinstance(other, (float, int)):
             return Vector(self.x * other, self.y * other, self.z * other)
-        elif isinstance(other, Vector):
+        if isinstance(other, Vector):
             return Vector(
                 self.y * other.z - self.z * other.y,
                 self.z * other.x - self.x * other.z,
                 self.x * other.y - self.y * other.x
             )
+        if isinstance(other, maths.Matrix):
+            return Vector(self.x * other.data[0] + self.y * other.data[3] + self.z * other.data[6],
+                          self.x * other.data[1] + self.y * other.data[4] + self.z * other.data[7],
+                          self.x * other.data[2] + self.y * other.data[5] + self.z * other.data[8])
         raise SkTypeError(self, other, "*")
 
     def __imul__(self, other) -> "Vector":
@@ -64,14 +69,18 @@ class Vector:
             self.y *= other
             self.z *= other
             return self
-        elif isinstance(other, Vector):
-            x_tmp = self.x
-            y_tmp = self.y
-            z_tmp = self.z
+        x_tmp = self.x
+        y_tmp = self.y
+        z_tmp = self.z
+        if isinstance(other, Vector):
             self.x = y_tmp * other.z - z_tmp * other.y
             self.y = z_tmp * other.x - x_tmp * other.z
             self.z = x_tmp * other.y - y_tmp * other.x
             return self
+        if isinstance(other, maths.Matrix):
+            self.x = x_tmp * other.data[0] + y_tmp * other.data[3] + z_tmp * other.data[6]
+            self.y = x_tmp * other.data[1] + y_tmp * other.data[4] + z_tmp * other.data[7]
+            self.z = x_tmp * other.data[2] + y_tmp * other.data[5] + z_tmp * other.data[8]
         raise SkTypeError(self, other, "*=")
 
     def __truediv__(self, other) -> "Vector":

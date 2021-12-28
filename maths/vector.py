@@ -26,7 +26,7 @@ class Vector:
             return Vector(self.x + other.x, self.y + other.y, self.z + other.z)
         raise SkTypeError(self, other, "+")
 
-    def __iadd__(self, other):
+    def __iadd__(self, other) -> "Vector":
         if isinstance(other, Vector):
             self.x += other.x
             self.y += other.y
@@ -39,7 +39,7 @@ class Vector:
             return Vector(self.x - other.x, self.y - other.y, self.z - other.z)
         raise SkTypeError(self, other, "-")
 
-    def __isub__(self, other):
+    def __isub__(self, other) -> "Vector":
         if isinstance(other, Vector):
             self.x -= other.x
             self.y -= other.y
@@ -58,7 +58,7 @@ class Vector:
             )
         raise SkTypeError(self, other, "*")
 
-    def __imul__(self, other):
+    def __imul__(self, other) -> "Vector":
         if isinstance(other, (float, int)):
             self.x *= other
             self.y *= other
@@ -79,7 +79,7 @@ class Vector:
             return Vector(self.x / other, self.y / other, self.z / other)
         raise SkTypeError(self, other, "/")
 
-    def __itruediv__(self, other):
+    def __itruediv__(self, other) -> "Vector":
         if isinstance(other, (float, int)):
             self.x /= other
             self.y /= other

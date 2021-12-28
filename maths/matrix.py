@@ -26,6 +26,42 @@ class Matrix:
                f"      ({self._data[1]} {self._data[4]} {self._data[7]})\n" \
                f"      ({self._data[2]} {self._data[5]} {self._data[8]})"
 
+    def __add__(self, other) -> "Matrix":
+        if isinstance(other, Matrix):
+            return Matrix(
+                self._data[0] + other._data[0], self._data[3] + other._data[3], self._data[6] + other._data[6],
+                self._data[1] + other._data[1], self._data[4] + other._data[4], self._data[7] + other._data[7],
+                self._data[2] + other._data[2], self._data[5] + other._data[5], self._data[8] + other._data[8],
+            )
+        raise SkTypeError(self, other, "+")
+
+    def __iadd__(self, other) -> "Matrix":
+        if isinstance(other, Matrix):
+            for i in range(0, len(self._data)):
+                self._data[i] += other._data[i]
+            return Matrix(self._data[0], self._data[3], self._data[6],
+                          self._data[1], self._data[4], self._data[7],
+                          self._data[2], self._data[5], self._data[8])
+        raise SkTypeError(self, other, "+=")
+
+    def __sub__(self, other) -> "Matrix":
+        if isinstance(other, Matrix):
+            return Matrix(
+                self._data[0] - other._data[0], self._data[3] - other._data[3], self._data[6] - other._data[6],
+                self._data[1] - other._data[1], self._data[4] - other._data[4], self._data[7] - other._data[7],
+                self._data[2] - other._data[2], self._data[5] - other._data[5], self._data[8] - other._data[8],
+            )
+        raise SkTypeError(self, other, "-")
+
+    def __isub__(self, other) -> "Matrix":
+        if isinstance(other, Matrix):
+            for i in range(0, len(self._data)):
+                self._data[i] -= other._data[i]
+            return Matrix(self._data[0], self._data[3], self._data[6],
+                          self._data[1], self._data[4], self._data[7],
+                          self._data[2], self._data[5], self._data[8])
+        raise SkTypeError(self, other, "-=")
+
 
 if __name__ == "__main__":
     print(Matrix(1, 1, 1, 1, 1, 1, 1, 1, 1))

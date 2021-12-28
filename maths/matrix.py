@@ -39,9 +39,7 @@ class Matrix:
         if isinstance(other, Matrix):
             for i in range(0, len(self._data)):
                 self._data[i] += other._data[i]
-            return Matrix(self._data[0], self._data[3], self._data[6],
-                          self._data[1], self._data[4], self._data[7],
-                          self._data[2], self._data[5], self._data[8])
+            return self
         raise SkTypeError(self, other, "+=")
 
     def __sub__(self, other) -> "Matrix":
@@ -57,10 +55,36 @@ class Matrix:
         if isinstance(other, Matrix):
             for i in range(0, len(self._data)):
                 self._data[i] -= other._data[i]
-            return Matrix(self._data[0], self._data[3], self._data[6],
-                          self._data[1], self._data[4], self._data[7],
-                          self._data[2], self._data[5], self._data[8])
+            return self
         raise SkTypeError(self, other, "-=")
+
+    def __mul__(self, other) -> "Matrix":
+        if isinstance(other, (int, float)):
+            return Matrix(self._data[0] * other, self._data[3] * other, self._data[6] * other,
+                          self._data[1] * other, self._data[4] * other, self._data[7] * other,
+                          self._data[2] * other, self._data[5] * other, self._data[8] * other,)
+        raise SkTypeError(self, other, "*")
+
+    def __imul__(self, other) -> "Matrix":
+        if isinstance(other, (int, float)):
+            for i in range(0, len(self._data)):
+                self._data[i] += other
+            return self
+        raise SkTypeError(self, other, "*=")
+
+    def __truediv__(self, other) -> "Matrix":
+        if isinstance(other, (int, float)):
+            return Matrix(self._data[0] / other, self._data[3] / other, self._data[6] / other,
+                          self._data[1] / other, self._data[4] / other, self._data[7] / other,
+                          self._data[2] / other, self._data[5] / other, self._data[8] / other, )
+        raise SkTypeError(self, other, "/")
+
+    def __itruediv__(self, other) -> "Matrix":
+        if isinstance(other, (int, float)):
+            for i in range(0, len(self._data)):
+                self._data[i] /= other
+            return self
+        raise SkTypeError(self, other, "/=")
 
 
 if __name__ == "__main__":

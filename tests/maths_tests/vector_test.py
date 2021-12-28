@@ -1,7 +1,7 @@
 import unittest
 
 
-from maths.vector import Vector
+from maths import Vector
 
 
 class VectorTest(unittest.TestCase):
@@ -44,7 +44,6 @@ class VectorTest(unittest.TestCase):
         v2 = Vector(3, 2, 1)
         self.assertEqual(v1 * v2, Vector(-4, 8, -4))
         v1 *= v2
-        print(v1)
         self.assertEqual(v1, Vector(-4, 8, -4))
 
     def test_magnitude(self):

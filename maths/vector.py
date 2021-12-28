@@ -81,6 +81,7 @@ class Vector:
             self.x = x_tmp * other.data[0] + y_tmp * other.data[3] + z_tmp * other.data[6]
             self.y = x_tmp * other.data[1] + y_tmp * other.data[4] + z_tmp * other.data[7]
             self.z = x_tmp * other.data[2] + y_tmp * other.data[5] + z_tmp * other.data[8]
+            return self
         raise SkTypeError(self, other, "*=")
 
     def __truediv__(self, other) -> "Vector":

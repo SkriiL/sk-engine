@@ -1,7 +1,7 @@
 import unittest
 
 
-from maths import Vector
+from maths import Vector, Matrix
 
 
 class VectorTest(unittest.TestCase):
@@ -49,6 +49,13 @@ class VectorTest(unittest.TestCase):
     def test_magnitude(self):
         v1 = Vector(4, 3, 0)
         self.assertEqual(abs(v1), 5)
+
+    def test_matrix_vector_multiplication(self):
+        m = Matrix(1, 0, 0, 0, 0, -1, 0, 1, 0)
+        v = Vector(0, 1, 0)
+        self.assertEqual(v * m, Vector(0, 0, 1))
+        v *= m
+        self.assertEqual(v, Vector(0, 0, 1))
 
 
 if __name__ == '__main__':

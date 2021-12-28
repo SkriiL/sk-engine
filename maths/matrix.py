@@ -21,7 +21,7 @@ class Matrix:
     def __eq__(self, other) -> bool:
         if isinstance(other, Matrix):
             for i in range(0, len(self.data)):
-                if self.data[i] != other.data[i]:
+                if self.data[i] - other.data[i] > 0.0000000001:
                     return False
             return True
         return False
@@ -67,7 +67,7 @@ class Matrix:
         if isinstance(other, (int, float)):
             return Matrix(self.data[0] * other, self.data[3] * other, self.data[6] * other,
                           self.data[1] * other, self.data[4] * other, self.data[7] * other,
-                          self.data[2] * other, self.data[5] * other, self.data[8] * other, )
+                          self.data[2] * other, self.data[5] * other, self.data[8] * other)
         if isinstance(other, Matrix):
             return Matrix(
                 self.data[0] * other.data[0] + self.data[3] * other.data[1] + self.data[6] * other.data[2],
@@ -89,18 +89,19 @@ class Matrix:
     def __imul__(self, other) -> "Matrix":
         if isinstance(other, (int, float)):
             for i in range(0, len(self.data)):
-                self.data[i] += other
+                self.data[i] *= other
             return self
         if isinstance(other, Matrix):
-            self.data[0] = self.data[0] * other.data[0] + self.data[3] * other.data[1] + self.data[6] * other.data[2]
-            self.data[3] = self.data[0] * other.data[3] + self.data[3] * other.data[4] + self.data[6] * other.data[5]
-            self.data[6] = self.data[0] * other.data[6] + self.data[3] * other.data[7] + self.data[6] * other.data[8]
-            self.data[1] = self.data[1] * other.data[0] + self.data[4] * other.data[1] + self.data[7] * other.data[2]
-            self.data[4] = self.data[1] * other.data[3] + self.data[4] * other.data[4] + self.data[7] * other.data[5]
-            self.data[7] = self.data[1] * other.data[6] + self.data[4] * other.data[7] + self.data[7] * other.data[8]
-            self.data[2] = self.data[2] * other.data[0] + self.data[5] * other.data[1] + self.data[8] * other.data[2]
-            self.data[5] = self.data[2] * other.data[3] + self.data[5] * other.data[4] + self.data[8] * other.data[5]
-            self.data[8] = self.data[2] * other.data[6] + self.data[5] * other.data[7] + self.data[8] * other.data[8]
+            tmp = self.data.copy()
+            self.data[0] = tmp[0] * other.data[0] + tmp[3] * other.data[1] + tmp[6] * other.data[2]
+            self.data[3] = tmp[0] * other.data[3] + tmp[3] * other.data[4] + tmp[6] * other.data[5]
+            self.data[6] = tmp[0] * other.data[6] + tmp[3] * other.data[7] + tmp[6] * other.data[8]
+            self.data[1] = tmp[1] * other.data[0] + tmp[4] * other.data[1] + tmp[7] * other.data[2]
+            self.data[4] = tmp[1] * other.data[3] + tmp[4] * other.data[4] + tmp[7] * other.data[5]
+            self.data[7] = tmp[1] * other.data[6] + tmp[4] * other.data[7] + tmp[7] * other.data[8]
+            self.data[2] = tmp[2] * other.data[0] + tmp[5] * other.data[1] + tmp[8] * other.data[2]
+            self.data[5] = tmp[2] * other.data[3] + tmp[5] * other.data[4] + tmp[8] * other.data[5]
+            self.data[8] = tmp[2] * other.data[6] + tmp[5] * other.data[7] + tmp[8] * other.data[8]
             return self
         raise SkTypeError(self, other, "*=")
 
@@ -129,8 +130,19 @@ class Matrix:
         det2 = self.data[2] * (self.data[3] * self.data[7] - self.data[4] * self.data[6])
         return det0 - det1 + det2
 
+    def adjugate(self) -> "Matrix":
+        return Matrix(self.data[4] * self.data[8] - self.data[5] * self.data[7],
+                      self.data[6] * self.data[5] - self.data[3] * self.data[8],
+                      self.data[3] * self.data[7] - self.data[6] * self.data[4],
+                      self.data[7] * self.data[2] - self.data[1] * self.data[8],
+                      self.data[0] * self.data[8] - self.data[6] * self.data[2],
+                      self.data[6] * self.data[1] - self.data[0] * self.data[7],
+                      self.data[1] * self.data[5] - self.data[4] * self.data[2],
+                      self.data[3] * self.data[2] - self.data[0] * self.data[5],
+                      self.data[0] * self.data[4] - self.data[3] * self.data[1])
+
     def inverse(self) -> "Matrix":
-        return self.transpose() * (1 / self.determinant())
+        return self.adjugate() * (1 / self.determinant())
 
 
 if __name__ == "__main__":

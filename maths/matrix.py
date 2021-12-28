@@ -113,6 +113,11 @@ class Matrix:
             return self
         raise SkTypeError(self, other, "/=")
 
+    def transpose(self) -> "Matrix":
+        return Matrix(self._data[0], self._data[1], self._data[2],
+                      self._data[3], self._data[4], self._data[5],
+                      self._data[6], self._data[7], self._data[8])
+
 
 if __name__ == "__main__":
     print(Matrix(1, 1, 1, 1, 1, 1, 1, 1, 1))

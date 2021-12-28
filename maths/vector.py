@@ -1,3 +1,5 @@
+import math
+
 from errors import SkTypeError
 
 
@@ -81,6 +83,9 @@ class Vector:
         if isinstance(other, Vector):
             return self.x * other.x + self.y * other.y + self.z * other.z
         raise SkTypeError(self, other, "dot")
+
+    def __abs__(self) -> float:
+        return math.sqrt(self.x * self.x + self.y * self.y + self.z * self.z)
 
 
 if __name__ == "__main__":

@@ -63,12 +63,35 @@ class Matrix:
             return Matrix(self._data[0] * other, self._data[3] * other, self._data[6] * other,
                           self._data[1] * other, self._data[4] * other, self._data[7] * other,
                           self._data[2] * other, self._data[5] * other, self._data[8] * other,)
+        if isinstance(other, Matrix):
+            return Matrix(
+                self._data[0] * other._data[0] + self._data[3] * other._data[1] + self._data[6] * other._data[2],
+                self._data[0] * other._data[3] + self._data[3] * other._data[4] + self._data[6] * other._data[5],
+                self._data[0] * other._data[6] + self._data[3] * other._data[7] + self._data[6] * other._data[8],
+                self._data[1] * other._data[0] + self._data[4] * other._data[1] + self._data[7] * other._data[2],
+                self._data[1] * other._data[3] + self._data[4] * other._data[4] + self._data[7] * other._data[5],
+                self._data[1] * other._data[6] + self._data[4] * other._data[7] + self._data[7] * other._data[8],
+                self._data[2] * other._data[0] + self._data[5] * other._data[1] + self._data[8] * other._data[2],
+                self._data[2] * other._data[3] + self._data[5] * other._data[4] + self._data[8] * other._data[5],
+                self._data[2] * other._data[6] + self._data[5] * other._data[7] + self._data[8] * other._data[8],
+            )
         raise SkTypeError(self, other, "*")
 
     def __imul__(self, other) -> "Matrix":
         if isinstance(other, (int, float)):
             for i in range(0, len(self._data)):
                 self._data[i] += other
+            return self
+        if isinstance(other, Matrix):
+            self._data[0] = self._data[0] * other._data[0] + self._data[3] * other._data[1] + self._data[6] * other._data[2]
+            self._data[3] = self._data[0] * other._data[3] + self._data[3] * other._data[4] + self._data[6] * other._data[5]
+            self._data[6] = self._data[0] * other._data[6] + self._data[3] * other._data[7] + self._data[6] * other._data[8]
+            self._data[1] = self._data[1] * other._data[0] + self._data[4] * other._data[1] + self._data[7] * other._data[2]
+            self._data[4] = self._data[1] * other._data[3] + self._data[4] * other._data[4] + self._data[7] * other._data[5]
+            self._data[7] = self._data[1] * other._data[6] + self._data[4] * other._data[7] + self._data[7] * other._data[8]
+            self._data[2] = self._data[2] * other._data[0] + self._data[5] * other._data[1] + self._data[8] * other._data[2]
+            self._data[5] = self._data[2] * other._data[3] + self._data[5] * other._data[4] + self._data[8] * other._data[5]
+            self._data[8] = self._data[2] * other._data[6] + self._data[5] * other._data[7] + self._data[8] * other._data[8]
             return self
         raise SkTypeError(self, other, "*=")
 

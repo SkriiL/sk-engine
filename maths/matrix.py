@@ -13,6 +13,10 @@ class Matrix:
                  m8: float):
         self._data = [m0, m1, m2, m3, m4, m5, m6, m7, m8]
 
+    @staticmethod
+    def identity() -> "Matrix":
+        return Matrix(1, 0, 0, 0, 1, 0, 0, 0, 1)
+
     def __eq__(self, other) -> bool:
         if isinstance(other, Matrix):
             for i in range(0, len(self._data)):

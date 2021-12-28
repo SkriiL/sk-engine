@@ -31,8 +31,8 @@ class Vector:
             self.x += other.x
             self.y += other.y
             self.z += other.z
-        else:
-            raise SkTypeError(self, other, "+=")
+            return self
+        raise SkTypeError(self, other, "+=")
 
     def __sub__(self, other) -> "Vector":
         if isinstance(other, Vector):
@@ -41,11 +41,11 @@ class Vector:
 
     def __isub__(self, other):
         if isinstance(other, Vector):
-            self.x += other.x
-            self.y += other.y
-            self.z += other.z
-        else:
-            raise SkTypeError(self, other, "-=")
+            self.x -= other.x
+            self.y -= other.y
+            self.z -= other.z
+            return self
+        raise SkTypeError(self, other, "-=")
 
     def __mul__(self, other) -> "Vector":
         if isinstance(other, (float, int)):
@@ -53,7 +53,7 @@ class Vector:
         elif isinstance(other, Vector):
             return Vector(
                 self.y * other.z - self.z * other.y,
-                self.z * other.x - self.x * other.x,
+                self.z * other.x - self.x * other.z,
                 self.x * other.y - self.y * other.x
             )
         raise SkTypeError(self, other, "*")
@@ -63,12 +63,16 @@ class Vector:
             self.x *= other
             self.y *= other
             self.z *= other
+            return self
         elif isinstance(other, Vector):
-            self.x = self.y * other.z - self.z * other.y
-            self.y = self.z * other.x - self.x * other.x
-            self.z = self.x * other.y - self.y * other.x
-        else:
-            raise SkTypeError(self, other, "*=")
+            x_tmp = self.x
+            y_tmp = self.y
+            z_tmp = self.z
+            self.x = y_tmp * other.z - z_tmp * other.y
+            self.y = z_tmp * other.x - x_tmp * other.z
+            self.z = x_tmp * other.y - y_tmp * other.x
+            return self
+        raise SkTypeError(self, other, "*=")
 
     def __truediv__(self, other) -> "Vector":
         if isinstance(other, (float, int)):
@@ -80,8 +84,8 @@ class Vector:
             self.x /= other
             self.y /= other
             self.z /= other
-        else:
-            raise SkTypeError(self, other, "/=")
+            return self
+        raise SkTypeError(self, other, "/=")
 
     def dot(self, other) -> float or int:
         if isinstance(other, Vector):
@@ -90,8 +94,3 @@ class Vector:
 
     def __abs__(self) -> float:
         return math.sqrt(self.x * self.x + self.y * self.y + self.z * self.z)
-
-
-if __name__ == "__main__":
-    v = Vector(1, 1, 1)
-    print(v * 3)

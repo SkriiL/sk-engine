@@ -44,6 +44,12 @@ class Vector:
     def __mul__(self, other) -> "Vector":
         if isinstance(other, (float, int)):
             return Vector(self.x * other, self.y * other, self.z * other)
+        elif isinstance(other, Vector):
+            return Vector(
+                self.y * other.z - self.z * other.y,
+                self.z * other.x - self.x * other.x,
+                self.x * other.y - self.y * other.x
+            )
         raise SkTypeError(self, other, "*")
 
     def __imul__(self, other):
@@ -51,6 +57,10 @@ class Vector:
             self.x *= other
             self.y *= other
             self.z *= other
+        elif isinstance(other, Vector):
+            self.x = self.y * other.z - self.z * other.y
+            self.y = self.z * other.x - self.x * other.x
+            self.z = self.x * other.y - self.y * other.x
         else:
             raise SkTypeError(self, other, "*=")
 

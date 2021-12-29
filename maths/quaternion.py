@@ -73,11 +73,11 @@ class Quaternion:
             return self
         raise SkTypeError(self, other, "/")
 
-    def norm(self) -> float:
+    def __abs__(self) -> float:
         return math.sqrt(self.scalar * self.scalar + self.vector.dot(self.vector))
 
     def normalize(self) -> "Quaternion":
-        return self / self.norm()
+        return self / abs(self)
 
     def conjugate(self) -> "Quaternion":
         return Quaternion(self.scalar, self.vector * (-1))

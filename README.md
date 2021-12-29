@@ -52,3 +52,62 @@ Magnitude
 ```python
 abs(v5)
 ```
+
+Matrix Vector Transformation
+```
+m = Matrix(1, 0, 0, 0, -1, 0, 0, 0, 1)
+v5 *= m
+```
+
+#### Matrix
+````python
+from maths import Matrix
+````
+
+Matrix initialization (row mayor)
+````python
+m1 = Matrix(1, 2, 3, 1, 2, 3, 1, 2, 3)
+````
+
+Identity Matrix
+```python
+m2 = Matrix.identity()
+```
+
+Matrix Addition and Subtraction
+````python
+m3 = m1 + m2
+m3 -= m1
+````
+
+Scalar Multiplication and Division (always use the Matrix object as the first operand)
+```python
+m4 = m3 * 3
+m4 /= 3
+```
+
+Matrix Multiplication
+```python
+m5 = m3 * m4
+```
+
+Matrix Transposition
+```python
+m6 = m5.transpose()
+```
+
+Determinant
+````python
+d = m6.determinant()
+````
+
+Adjugate Matrix
+```python
+m7 = m6.adjugate()
+```
+
+Inverse Matrix
+```
+m8 = m7.inverse()
+```
+

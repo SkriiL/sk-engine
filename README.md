@@ -54,7 +54,7 @@ abs(v5)
 ```
 
 Matrix Vector Transformation
-```
+```python
 m = Matrix(1, 0, 0, 0, -1, 0, 0, 0, 1)
 v5 *= m
 ```

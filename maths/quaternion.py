@@ -40,6 +40,8 @@ class Quaternion:
         raise SkTypeError(self, other, "-=")
 
     def __mul__(self, other) -> "Quaternion":
+        if isinstance(other, (int, float)):
+            return Quaternion(other * self.scalar, self.vector * other)
         if isinstance(other, Quaternion):
             scalar = self.scalar * other.scalar - self.vector.dot(other.vector)
             vector = other.vector * self.scalar + self.vector * other.scalar + self.vector * other.vector
@@ -48,11 +50,26 @@ class Quaternion:
 
     def __imul__(self, other) -> "Quaternion":
         if isinstance(other, Quaternion):
+            self.scalar *= other
+            self.vector *= other
+        if isinstance(other, Quaternion):
             scalar_tmp = self.scalar
             self.scalar = self.scalar * other.scalar - self.vector.dot(other.vector)
             self.vector = other.vector * scalar_tmp + self.vector * other.scalar + self.vector * other.vector
             return self
         raise SkTypeError(self, other, "*=")
+
+    def __truediv__(self, other) -> "Quaternion":
+        if isinstance(other, (int, float)):
+            return Quaternion(other / self.scalar, self.vector / other)
+        raise SkTypeError(self, other, "/")
+
+    def __itruediv__(self, other) -> "Quaternion":
+        if isinstance(other, (int, float)):
+            self.scalar /= other
+            self.vector /= other
+            return self
+        raise SkTypeError(self, other, "/")
 
 
 if __name__ == "__main__":

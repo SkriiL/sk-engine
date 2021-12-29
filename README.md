@@ -107,7 +107,7 @@ m7 = m6.adjugate()
 ```
 
 Inverse Matrix
-```
+```python
 m8 = m7.inverse()
 ```
 

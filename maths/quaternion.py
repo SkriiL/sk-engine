@@ -79,6 +79,9 @@ class Quaternion:
     def normalize(self) -> "Quaternion":
         return self / self.norm()
 
+    def conjugate(self) -> "Quaternion":
+        return Quaternion(self.scalar, self.vector * (-1))
+
 
 if __name__ == "__main__":
     q = Quaternion(90, maths.Vector(1, 1, 1))

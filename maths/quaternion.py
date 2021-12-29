@@ -1,3 +1,5 @@
+import math
+
 import maths
 from errors import SkTypeError
 
@@ -70,6 +72,9 @@ class Quaternion:
             self.vector /= other
             return self
         raise SkTypeError(self, other, "/")
+
+    def norm(self) -> float:
+        return math.sqrt(self.scalar * self.scalar + self.vector.dot(self.vector))
 
 
 if __name__ == "__main__":

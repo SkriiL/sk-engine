@@ -143,7 +143,3 @@ class Matrix:
 
     def inverse(self) -> "Matrix":
         return self.adjugate() * (1 / self.determinant())
-
-
-if __name__ == "__main__":
-    print(Matrix(1, 1, 1, 1, 1, 1, 1, 1, 1))

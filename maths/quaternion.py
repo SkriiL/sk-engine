@@ -51,7 +51,7 @@ class Quaternion:
         raise SkTypeError(self, other, "*")
 
     def __imul__(self, other) -> "Quaternion":
-        if isinstance(other, Quaternion):
+        if isinstance(other, (int, float)):
             self.scalar *= other
             self.vector *= other
         if isinstance(other, Quaternion):
@@ -84,6 +84,13 @@ class Quaternion:
 
     def inverse(self) -> "Quaternion":
         return self.conjugate() / (abs(self) ** 2)
+
+    def rotate_vector(self, vector: maths.Vector) -> maths.Vector:
+        p = Quaternion(0, vector)
+        q = self.normalize()
+        i = q.inverse()
+        rotated = q * p * i
+        return rotated.vector
 
 
 if __name__ == "__main__":

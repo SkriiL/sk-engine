@@ -104,3 +104,10 @@ class Vector:
 
     def __abs__(self) -> float:
         return math.sqrt(self.x * self.x + self.y * self.y + self.z * self.z)
+
+    def rotate(self, q: maths.Quaternion) -> "Vector":
+        p: maths.Quaternion = maths.Quaternion(0, self)
+        q = q.normalize()
+        i = q.inverse()
+        rotated = q * p * i
+        return rotated.vector

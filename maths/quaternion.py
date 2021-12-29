@@ -82,6 +82,9 @@ class Quaternion:
     def conjugate(self) -> "Quaternion":
         return Quaternion(self.scalar, self.vector * (-1))
 
+    def inverse(self) -> "Quaternion":
+        return self.conjugate() / (abs(self) ** 2)
+
 
 if __name__ == "__main__":
     q = Quaternion(90, maths.Vector(1, 1, 1))

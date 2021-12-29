@@ -39,6 +39,21 @@ class Quaternion:
             return self
         raise SkTypeError(self, other, "-=")
 
+    def __mul__(self, other) -> "Quaternion":
+        if isinstance(other, Quaternion):
+            scalar = self.scalar * other.scalar - self.vector.dot(other.vector)
+            vector = other.vector * self.scalar + self.vector * other.scalar + self.vector * other.vector
+            return Quaternion(scalar, vector)
+        raise SkTypeError(self, other, "*")
+
+    def __imul__(self, other) -> "Quaternion":
+        if isinstance(other, Quaternion):
+            scalar_tmp = self.scalar
+            self.scalar = self.scalar * other.scalar - self.vector.dot(other.vector)
+            self.vector = other.vector * scalar_tmp + self.vector * other.scalar + self.vector * other.vector
+            return self
+        raise SkTypeError(self, other, "*=")
+
 
 if __name__ == "__main__":
     q = Quaternion(90, maths.Vector(1, 1, 1))

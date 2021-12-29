@@ -76,6 +76,9 @@ class Quaternion:
     def norm(self) -> float:
         return math.sqrt(self.scalar * self.scalar + self.vector.dot(self.vector))
 
+    def normalize(self) -> "Quaternion":
+        return self / self.norm()
+
 
 if __name__ == "__main__":
     q = Quaternion(90, maths.Vector(1, 1, 1))

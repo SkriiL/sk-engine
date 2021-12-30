@@ -59,6 +59,12 @@ m = Matrix(1, 0, 0, 0, -1, 0, 0, 0, 1)
 v5 *= m
 ```
 
+Rotate Vector
+```python
+q = Quaternion(90, Vector(1, 0, 0))
+v6 = v5.rotate(q)
+```
+
 #### Matrix
 ````python
 from maths import Matrix
@@ -111,3 +117,55 @@ Inverse Matrix
 m8 = m7.inverse()
 ```
 
+#### Quaternion
+````python
+from maths import Quaternion
+````
+
+Quaternion Initialization
+````python
+q1 = Quaternion(90, Vector(1, 0, 0))
+````
+
+Quaternion Addition and Subtraction
+```python
+q2 = Quaternion(90, Vector(0, 1, 0))
+q3 = q1 + q2
+q3 -= q2
+```
+
+Quaternion Scalar Multiplication and Division (always use the Quaternion object as the first operator)
+````python
+q4 = q3 * 2
+q4 /= 2
+````
+
+Quaternion Multiplication
+````python
+q5 = q4 * q3
+````
+
+Quaternion Norm
+```python
+abs(q5)
+```
+
+Normalize
+````python
+q5.normalize()
+````
+
+Unit Normalize (needed for rotation)
+```python
+q5.unit_normalize()
+```
+
+Conjugate Quaternion
+````python
+q6 = q5.conjugate()
+````
+
+Inverse Quaternion
+````python
+q7 = q6.inverse()
+````

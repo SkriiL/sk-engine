@@ -1,6 +1,4 @@
 import math
-
-import maths
 from errors import SkTypeError
 
 
@@ -10,16 +8,12 @@ class Vector:
         self.y: float = y
         self.z: float = z
 
-    @staticmethod
-    def unit() -> "Vector":
-        return Vector(1, 1, 1)
-
     def __str__(self) -> str:
         return f"Vector({self.x}, {self.y}, {self.z})"
 
     def __eq__(self, other) -> bool:
         if isinstance(other, Vector):
-            return self.x == other.x and self.y == other.y and self.z == other.z
+            return self.x - other.x < 0.000001 and self.y - other.y < 0.000001 and self.z - other.z < 0.000001
         return False
 
     def __add__(self, other) -> "Vector":
@@ -105,9 +99,16 @@ class Vector:
     def __abs__(self) -> float:
         return math.sqrt(self.x * self.x + self.y * self.y + self.z * self.z)
 
-    def rotate(self, q: maths.Quaternion) -> "Vector":
+    def normalize(self) -> "Vector":
+        return self / abs(self)
+
+    def rotate(self, q: "maths.Quaternion") -> "Vector":
         p: maths.Quaternion = maths.Quaternion(0, self)
-        q = q.normalize()
+        q.vector = q.vector.normalize()
+        q = q.unit_normalize()
         i = q.inverse()
         rotated = q * p * i
         return rotated.vector
+
+
+import maths

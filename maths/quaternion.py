@@ -1,11 +1,10 @@
 import math
 
-import maths
 from errors import SkTypeError
 
 
 class Quaternion:
-    def __init__(self, scalar: float, vector: maths.Vector):
+    def __init__(self, scalar: float, vector: "maths.Vector"):
         self.scalar: float = scalar
         self.vector: maths.Vector = vector
 
@@ -54,6 +53,7 @@ class Quaternion:
         if isinstance(other, (int, float)):
             self.scalar *= other
             self.vector *= other
+            return self
         if isinstance(other, Quaternion):
             scalar_tmp = self.scalar
             self.scalar = self.scalar * other.scalar - self.vector.dot(other.vector)
@@ -63,7 +63,7 @@ class Quaternion:
 
     def __truediv__(self, other) -> "Quaternion":
         if isinstance(other, (int, float)):
-            return Quaternion(other / self.scalar, self.vector / other)
+            return Quaternion(self.scalar / other, self.vector / other)
         raise SkTypeError(self, other, "/")
 
     def __itruediv__(self, other) -> "Quaternion":
@@ -79,20 +79,26 @@ class Quaternion:
     def normalize(self) -> "Quaternion":
         return self / abs(self)
 
+    def unit_normalize(self) -> "Quaternion":
+        rad = math.radians(self.scalar)
+        v = self.vector.normalize()
+        scalar = math.cos(rad * 0.5)
+        vector = v * math.sin(rad * 0.5)
+        return Quaternion(scalar, vector)
+
     def conjugate(self) -> "Quaternion":
         return Quaternion(self.scalar, self.vector * (-1))
 
     def inverse(self) -> "Quaternion":
         return self.conjugate() / (abs(self) ** 2)
 
-    def rotate_vector(self, vector: maths.Vector) -> maths.Vector:
+    def rotate_vector(self, vector: "maths.Vector") -> "maths.Vector":
         p = Quaternion(0, vector)
-        q = self.normalize()
+        self.vector = self.vector.normalize()
+        q = self.unit_normalize()
         i = q.inverse()
         rotated = q * p * i
         return rotated.vector
 
 
-if __name__ == "__main__":
-    q = Quaternion(90, maths.Vector(1, 1, 1))
-    print(q)
+import maths

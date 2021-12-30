@@ -1,4 +1,3 @@
-import maths
 from errors import SkTypeError
 
 
@@ -143,3 +142,6 @@ class Matrix:
 
     def inverse(self) -> "Matrix":
         return self.adjugate() * (1 / self.determinant())
+
+
+import maths
